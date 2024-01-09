@@ -18,8 +18,15 @@ func main() {
 	fmt.Printf("Width: %d\n", pbm.Width)
 	fmt.Printf("Height: %d\n", pbm.Height)
 	fmt.Println("Data:")
-	for _, row := range pbm.Data {
-		fmt.Println(row)
-	}
 
+	for _, row := range pbm.Data {
+		for _, pixel := range row {
+			if pixel {
+				fmt.Print("■")
+			} else {
+				fmt.Print("□")
+			}
+		}
+		fmt.Println()
+	}
 }
