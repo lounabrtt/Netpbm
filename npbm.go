@@ -186,3 +186,12 @@ func (pbm *PBM) Save(filename string) error{
 
 	return nil
 }
+
+func (pbm *PBM) Invert() {
+    // Invert switch the colors of  image.
+    for i := 0; i < pbm.Height; i++ {
+        for j := 0; j < pbm.Width; j++ {
+            pbm.Set(j, i, !pbm.At(j, i))
+        }
+    }
+}

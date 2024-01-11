@@ -20,6 +20,8 @@ func main() {
 	fmt.Println("Data before:")
 	fmt.Println("here it's ", pbm.At(0, 0))
 
+	pbm.Invert()
+
 	// change the value of the pixel
 	pbm.Set(0, 0, true)
 	fmt.Println("Data after:")
@@ -28,9 +30,9 @@ func main() {
 	for _, row := range pbm.Data {
 		for _, pixel := range row {
 			if pixel {
-				fmt.Print("■")
+				fmt.Print("®")
 			} else {
-				fmt.Print("□")
+				fmt.Print("°")
 			}
 		}
 		fmt.Println()
