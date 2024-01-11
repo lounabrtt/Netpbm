@@ -41,7 +41,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		if len(line) > 0 && line[0] != '#' {
 			break
 		}
-		fmt.Println("Skipped line:", line)  // Ajoutez cette ligne pour débuguer
+		fmt.Println("Skipped line:", line) // Ajoutez cette ligne pour débuguer
 	}
 
 	// Lire la largeur et la hauteur
@@ -113,4 +113,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		Height:      height,
 		MagicNumber: magicNumber,
 	}, nil
+}
+func (pbm *PBM) Size() (int, int) {
+	return pbm.Height, pbm.Width
 }
