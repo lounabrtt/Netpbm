@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	filename := "imagebinaire.pbm"
+	filename := "imagehexa.pbm"
 	pbm, err := netpbm.ReadPBM(filename)
 	if err != nil {
 		fmt.Println("error", err)
