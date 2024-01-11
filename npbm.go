@@ -117,3 +117,71 @@ func ReadPBM(filename string) (*PBM, error) {
 func (pbm *PBM) Size() (int, int) {
 	return pbm.Height, pbm.Width
 }
+func (pbm *PBM) At(x, y int) bool {
+if x < 0 || y < 0 || x >= pbm.Width || y >= pbm.Height {
+    return false
+}
+
+
+    return pbm.Data[y][x]
+}
+func (pbm *PBM) Set(x, y int, valeur bool) {
+
+if x < 0 || y < 0 || x >= pbm.Width || y >= pbm.Height {
+    return
+}
+
+pbm.Data[y][x] = valeur
+}
+func (pbm *PBM) Save(filename string) error{
+    file, err := os.Create(filename)
+	if err != nil {
+		return fmt.Errorf("error creating file: %v", err)
+	}
+	defer file.Close()
+
+	_, err = fmt.Fprintf(file, "%s\n", pbm.MagicNumber)
+	if err != nil {
+		return fmt.Errorf("error writing magic number: %v", err)
+	}
+
+	_, err = fmt.Fprintf(file, "%d %d\n", pbm.Width, pbm.Height)
+	if err != nil {
+		return fmt.Errorf("error writing dimensions: %v", err)
+	}
+
+	// Écrire les données
+	for _, row := range pbm.Data {
+		for _, pixel := range row {
+			if pbm.MagicNumber == "P1" {
+				// Pour le format P1 (ASCII)
+				if pixel {
+					_, err = fmt.Fprint(file, "1 ")
+				} else {
+					_, err = fmt.Fprint(file, "0 ")
+				}
+			} else if pbm.MagicNumber == "P4" {
+				// Pour le format P4 (binaire)
+				if pixel {
+					_, err = fmt.Fprint(file, "1")
+				} else {
+					_, err = fmt.Fprint(file, "0")
+				}
+			}
+			if err != nil {
+				return fmt.Errorf("error writing data: %v", err)
+			}
+		}
+		if pbm.MagicNumber == "P1" {
+			// Ajouter une nouvelle ligne pour le format P1
+			_, err = fmt.Fprintln(file)
+			if err != nil {
+				return fmt.Errorf("error writing data: %v", err)
+			}
+		}
+	}
+
+	fmt.Printf("Image sauvegardée avec succès dans %s\n", filename)
+
+	return nil
+}
