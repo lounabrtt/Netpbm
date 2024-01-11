@@ -36,7 +36,7 @@ func main() {
 		fmt.Println()
 	}
 	// new save
-	newFilename := "imagehexa_modified.pbm"
+	newFilename := "imagehexa_two.pbm"
 	err = pbm.Save(newFilename)
 	if err != nil {
 		fmt.Println("error saving image:", err)

@@ -145,6 +145,7 @@ func (pbm *PBM) Save(filename string) error{
 		return fmt.Errorf("error writing magic number: %v", err)
 	}
 
+
 	_, err = fmt.Fprintf(file, "%d %d\n", pbm.Width, pbm.Height)
 	if err != nil {
 		return fmt.Errorf("error writing dimensions: %v", err)
