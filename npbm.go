@@ -91,7 +91,6 @@ func ReadPBM(filename string) (*PBM, error) {
 			// Ignorer les caractères non binaires
 			line = strings.ReplaceAll(line, " ", "")
 			line = strings.ReplaceAll(line, "\t", "")
-			fmt.Println("Binary line:", line)  // Ajoutez cette ligne pour débuguer
 			for _, char := range line {
 				if char == '1' {
 					data = append(data, []bool{true})
