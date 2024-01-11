@@ -41,6 +41,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		if len(line) > 0 && line[0] != '#' {
 			break
 		}
+		fmt.Println("Skipped line:", line)  // Ajoutez cette ligne pour débuguer
 	}
 
 	// Lire la largeur et la hauteur
@@ -90,6 +91,7 @@ func ReadPBM(filename string) (*PBM, error) {
 			// Ignorer les caractères non binaires
 			line = strings.ReplaceAll(line, " ", "")
 			line = strings.ReplaceAll(line, "\t", "")
+			fmt.Println("Binary line:", line)  // Ajoutez cette ligne pour débuguer
 			for _, char := range line {
 				if char == '1' {
 					data = append(data, []bool{true})
