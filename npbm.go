@@ -25,7 +25,7 @@ func ReadPBM(filename string) (*PBM, error) {
 
 	scanner := bufio.NewScanner(file)
 
-	// Read magic number
+	// Lire le nombre magique
 	if !scanner.Scan() {
 		return nil, fmt.Errorf("failed to read magic number")
 	}
@@ -35,7 +35,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		return nil, fmt.Errorf("unsupported PBM format: %s", magicNumber)
 	}
 
-	// Skip comments and empty lines
+	// Ignorer les commentaires et les lignes vides
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if len(line) > 0 && line[0] != '#' {
@@ -43,7 +43,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		}
 	}
 
-	// Read width and height
+	// Lire la largeur et la hauteur
 	if scanner.Err() != nil {
 		return nil, fmt.Errorf("error reading dimensions line: %v", scanner.Err())
 	}
@@ -62,25 +62,44 @@ func ReadPBM(filename string) (*PBM, error) {
 		return nil, fmt.Errorf("failed to parse height: %v", err)
 	}
 
-	// Read data
+	// Lire les données
 	var data [][]bool
-	for scanner.Scan() {
-		line := scanner.Text()
-		tokens := strings.Fields(line)
-		row := make([]bool, width)
-		for i, token := range tokens {
-			if i >= width {
-				break
+	if magicNumber == "P1" {
+		for scanner.Scan() {
+			line := scanner.Text()
+			tokens := strings.Fields(line)
+			row := make([]bool, width)
+			for i, token := range tokens {
+				if i >= width {
+					break
+				}
+				if token == "1" {
+					row[i] = true
+				} else if token == "0" {
+					row[i] = false
+				} else {
+					return nil, fmt.Errorf("invalid character in data: %s", token)
+				}
 			}
-			if token == "1" {
-				row[i] = true
-			} else if token == "0" {
-				row[i] = false
-			} else {
-				return nil, fmt.Errorf("invalid character in data: %s", token)
+			data = append(data, row)
+		}
+	} else if magicNumber == "P4" {
+		// Lire les données en format binaire
+		for scanner.Scan() {
+			line := scanner.Text()
+			// Ignorer les caractères non binaires
+			line = strings.ReplaceAll(line, " ", "")
+			line = strings.ReplaceAll(line, "\t", "")
+			for _, char := range line {
+				if char == '1' {
+					data = append(data, []bool{true})
+				} else if char == '0' {
+					data = append(data, []bool{false})
+				} else {
+					return nil, fmt.Errorf("invalid character in binary data: %c", char)
+				}
 			}
 		}
-		data = append(data, row)
 	}
 
 	if err := scanner.Err(); err != nil {
