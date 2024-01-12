@@ -25,7 +25,6 @@ func ReadPBM(filename string) (*PBM, error) {
 
 	scanner := bufio.NewScanner(file)
 
-	// Lire le nombre magique
 	if !scanner.Scan() {
 		return nil, fmt.Errorf("failed to read magic number")
 	}
