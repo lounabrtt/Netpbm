@@ -194,3 +194,16 @@ func (pbm *PBM) Invert() {
         }
     }
 }
+func (pbm *PBM) Flip() {
+    //flip the image horizontally.
+    for i := 0; i < pbm.Height; i++ {
+        for j := 0; j < pbm.Width/2; j++ {
+            temp := pbm.At(j, i)
+            pbm.Set(j, i, pbm.At(pbm.Width-1-j, i))
+            pbm.Set(pbm.Width-1-j, i, temp)
+        }
+    }
+}
+func (pbm *PBM) SetMagicNumber(magicNumber string) {
+    pbm.MagicNumber = magicNumber
+}
