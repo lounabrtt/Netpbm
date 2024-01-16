@@ -85,19 +85,24 @@ func ReadPBM(filename string) (*PBM, error) {
 		}
 	} else if magicNumber == "P4" {
 		// Lire les données en format binaire
+		var binaryData string
+
 		for scanner.Scan() {
 			line := scanner.Text()
 			// Ignorer les caractères non binaires
 			line = strings.ReplaceAll(line, " ", "")
 			line = strings.ReplaceAll(line, "\t", "")
-			for _, char := range line {
-				if char == '1' {
-					data = append(data, []bool{true})
-				} else if char == '0' {
-					data = append(data, []bool{false})
-				} else {
-					return nil, fmt.Errorf("invalid character in binary data: %c", char)
-				}
+			binaryData += line
+		}
+
+		// Convertir les caractères ASCII en binaire
+		for _, char := range binaryData {
+			if char == '0' {
+				data = append(data, []bool{false})
+			} else if char == '1' {
+				data = append(data, []bool{true})
+			} else {
+				return nil, fmt.Errorf("invalid character in binary data: %c", char)
 			}
 		}
 	}
@@ -113,6 +118,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		MagicNumber: magicNumber,
 	}, nil
 }
+
 func (pbm *PBM) Size() (int, int) {
 	return pbm.Height, pbm.Width
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	filename := "imagebinaire.pbm"
+	filename := "imageP4.pbm"
 	pbm, err := netpbm.ReadPBM(filename)
 	if err != nil {
 		fmt.Println("error", err)
@@ -15,9 +15,9 @@ func main() {
 	}
 
 		// stets the magic number
-		fmt.Printf("Current Magic Number: %s\n", pbm.MagicNumber)
-		pbm.SetMagicNumber("P3")
-		fmt.Printf("Modified Magic Number: %s\n", pbm.MagicNumber)
+		//fmt.Printf("Current Magic Number: %s\n", pbm.MagicNumber)
+	//pbm.SetMagicNumber("P3")
+		//fmt.Printf("Modified Magic Number: %s\n", pbm.MagicNumber)
 
 	fmt.Printf("Magic Number: %s\n", pbm.MagicNumber)
 	fmt.Printf("Width: %d\n", pbm.Width)
