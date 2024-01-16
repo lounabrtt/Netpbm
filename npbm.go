@@ -1,4 +1,4 @@
-package netpbm
+package main
 
 import (
 	"bufio"
@@ -62,7 +62,7 @@ func ReadPBM(filename string) (*PBM, error) {
 		return nil, fmt.Errorf("failed to parse height: %v", err)
 	}
 
-	// Lire les données
+	// Lire les données en format binaire
 	var data [][]bool
 	if magicNumber == "P1" {
 		for scanner.Scan() {
@@ -84,27 +84,7 @@ func ReadPBM(filename string) (*PBM, error) {
 			data = append(data, row)
 		}
 	} else if magicNumber == "P4" {
-		// Lire les données en format binaire
-		var binaryData string
-
-		for scanner.Scan() {
-			line := scanner.Text()
-			// Ignorer les caractères non binaires
-			line = strings.ReplaceAll(line, " ", "")
-			line = strings.ReplaceAll(line, "\t", "")
-			binaryData += line
-		}
-
-		// Convertir les caractères ASCII en binaire
-		for _, char := range binaryData {
-			if char == '0' {
-				data = append(data, []bool{false})
-			} else if char == '1' {
-				data = append(data, []bool{true})
-			} else {
-				return nil, fmt.Errorf("invalid character in binary data: %c", char)
-			}
-		}
+		// ... (le code que nous avons discuté précédemment pour P4)
 	}
 
 	if err := scanner.Err(); err != nil {
