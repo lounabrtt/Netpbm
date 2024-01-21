@@ -1,4 +1,4 @@
-package main
+package netpbm
 
 import (
 	"bufio"
@@ -8,14 +8,12 @@ import (
 	"strings"
 )
 
-// PBM est une structure pour représenter des images PBM.
 type PBM struct {
 	Data          [][]bool
 	Width, Height int
 	MagicNumber   string
 }
 
-// ReadPBM lit une image PBM à partir d'un fichier et renvoie une structure représentant l'image.
 func ReadPBM(filename string) (*PBM, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -136,18 +134,18 @@ func (pbm *PBM) Save(filename string) error{
 		return fmt.Errorf("error writing dimensions: %v", err)
 	}
 
-	// Écrire les données
+
 	for _, row := range pbm.Data {
 		for _, pixel := range row {
 			if pbm.MagicNumber == "P1" {
-				// Pour le format P1 (ASCII)
+				
 				if pixel {
 					_, err = fmt.Fprint(file, "1 ")
 				} else {
 					_, err = fmt.Fprint(file, "0 ")
 				}
 			} else if pbm.MagicNumber == "P4" {
-				// Pour le format P4 (binaire)
+			
 				if pixel {
 					_, err = fmt.Fprint(file, "1")
 				} else {
@@ -159,7 +157,7 @@ func (pbm *PBM) Save(filename string) error{
 			}
 		}
 		if pbm.MagicNumber == "P1" {
-			// Ajouter une nouvelle ligne pour le format P1
+	
 			_, err = fmt.Fprintln(file)
 			if err != nil {
 				return fmt.Errorf("error writing data: %v", err)
@@ -173,7 +171,7 @@ func (pbm *PBM) Save(filename string) error{
 }
 
 func (pbm *PBM) Invert() {
-    // Invert switch the colors of  image.
+ 
     for i := 0; i < pbm.Height; i++ {
         for j := 0; j < pbm.Width; j++ {
             pbm.Set(j, i, !pbm.At(j, i))
@@ -181,7 +179,7 @@ func (pbm *PBM) Invert() {
     }
 }
 func (pbm *PBM) Flip() {
-    //flip the image horizontally.
+   
     for i := 0; i < pbm.Height; i++ {
         for j := 0; j < pbm.Width/2; j++ {
             temp := pbm.At(j, i)
